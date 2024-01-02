@@ -23,24 +23,32 @@ def scrape_hdrezka_film():
 
     translator_elements = driver.find_elements(By.CSS_SELECTOR, '.b-translator__item[data-translator_id]')
     options = []
-    for i, element in enumerate(translator_elements):
-       translator_id = element.get_attribute('data-translator_id')
-       title = element.get_attribute('title')
-       options.append((title, translator_id))
-       print(f'{i+1}. {title} {translator_id}') 
+    if translator_elements:
+        for i, element in enumerate(translator_elements):
+            translator_id = element.get_attribute('data-translator_id')
+            title = element.get_attribute('title')
+            options.append((title, translator_id))
+            print(f'{i+1}. {title} {translator_id}')
+    else:
+        print("No translators found")
 
-    choice = int(input("Enter the number of your choice: ")) - 1
-    chosen_option = options[choice]
-    print(f"You chose: {chosen_option[0]} {chosen_option[1]}")
+    if translator_elements:
+        choice = int(input("Enter the number of your choice: ")) - 1
+        chosen_option = options[choice]
+        print(f"You chose: {chosen_option[0]} {chosen_option[1]}")
+    
 
     with open('script.js', 'r') as file:
         original_js_code = file.read()
 
-    # Replace the hardcoded translator_id with the chosen one
-    modified_js_code = original_js_code.replace('data-translator_id="ID"', f'data-translator_id="{chosen_option[1]}"')
+    if translator_elements:
+        modified_js_code = original_js_code.replace('data-translator_id="ID"', f'data-translator_id="{chosen_option[1]}"')
+    else: 
+        modified_js_code = original_js_code
 
-    with open('script.js', 'w') as file:
-        file.write(modified_js_code)
+    if translator_elements:
+        with open('script.js', 'w') as file:
+            file.write(modified_js_code)
 
     driver.execute_script(modified_js_code)
 
@@ -53,8 +61,6 @@ def scrape_hdrezka_film():
     logs = driver.execute_script("return window.log")
 
     quality_keywords = ["[360p]", "[480p]", "[720p]", "[1080p]", "[1080p Ultra]", "[1440p]", "[2160p]"]
-
-    
 
     for log in logs:
         log_str = ' '.join(str(x) for x in log)

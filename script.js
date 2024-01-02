@@ -30,14 +30,19 @@ function productNew(iterables, repeat) {
   
   const clickElement = selector => {
     const element = $(selector)[0];
-    if (document.createEvent) {
-        const event = new MouseEvent("click", {bubbles: true, cancelable: true, view: window});
-        element.dispatchEvent(event);
-    } else if (element.fireEvent) {
-        element.fireEvent("onclick");
+    if (element) {
+        if (document.createEvent) {
+            const event = new MouseEvent("click", {bubbles: true, cancelable: true, view: window});
+            element.dispatchEvent(event);
+        } else if (element.fireEvent) {
+            element.fireEvent("onclick");
+        }
+    } else {
+        console.log('Element does not exist');
     }
-  };
-  
-  clickElement('.b-translator__item[data-translator_id="ID"]');
-  
-  setTimeout(() => console.log(clearTrash(CDNPlayerInfo.streams)), 1000);
+};
+
+const selector = '.b-translator__item[data-translator_id="ID"]';
+clickElement(selector);
+
+setTimeout(() => console.log(clearTrash(CDNPlayerInfo.streams)), 1000);
