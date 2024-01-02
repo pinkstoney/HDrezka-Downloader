@@ -42,7 +42,7 @@ function productNew(iterables, repeat) {
     }
 };
 
-const selector = '.b-translator__item[data-translator_id="ID"]';
+const selector = '.b-translator__item[data-translator_id="238"]';
 clickElement(selector);
 
 setTimeout(() => console.log(clearTrash(CDNPlayerInfo.streams)), 1000);
