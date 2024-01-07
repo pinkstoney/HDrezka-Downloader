@@ -31,13 +31,13 @@ Before starting, follow these simple steps to set up your environment.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/hdrezka-film-downloader.git
+   git clone https://github.com/pinkstoney/HDrezka-Downloader.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd hdrezka-film-downloader
+   cd HDrezka-Downloader
    ```
 
 3. Create a `.env` file in the root directory. Specify the path to the Chrome driver and Chrome binary:
