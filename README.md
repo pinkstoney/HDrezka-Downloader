@@ -17,6 +17,7 @@ The project is actively being developed, and upcoming features include:
 
 - **TV Show Download:** An upcoming feature will allow you to download your favorite TV shows.
 - **Enhanced User Interface:** Improvements to the user interface for a more user-friendly experience.
+- **Get rid of chromedriver**
 
 ### Refactoring Notice 🛠️
 
