@@ -16,8 +16,9 @@ Welcome to the HDRezka Film Downloader repository! 🎬 This Python script enabl
 The project is actively being developed, and upcoming features include:
 
 - **TV Show Download:** An upcoming feature will allow you to download your favorite TV shows.
+- **Subtitles Download:** An upcomming feature will allow you to download subtutles to your favourute film or TV show
 - **Enhanced User Interface:** Improvements to the user interface for a more user-friendly experience.
-- **Get rid of chromedriver**
+- **Optimize by getting rid of chromedriver:** Improvements to the user experience.
 
 ### Refactoring Notice 🛠️
 
