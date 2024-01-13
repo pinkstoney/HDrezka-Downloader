@@ -56,6 +56,18 @@ def get_seasons(film_url, headers):
             seasons.append(season)
     return seasons
 
+def get_episodes(film_url, headers):
+    response = requests.get(film_url, headers=headers)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.text, 'html.parser')
+    episode_elements = soup.select('.b-simple_episode__item')
+    episodes = []
+    if episode_elements:
+        for element in episode_elements:
+            episode = element.text
+            episodes.append(episode)
+    return episodes
+
 def find_source_with_hash(film_url, headers):
     response = requests.get(film_url, headers=headers)
     response.raise_for_status()

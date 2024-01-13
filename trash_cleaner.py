@@ -53,3 +53,9 @@ def clear_response(data):
 
     else:
         return "No '#h' found in the input string."
+
+def seasons_cleaner(seasons):
+    return ', '.join(re.sub('\D', '', season) for season in seasons)
+
+def episodes_cleaner(episodes):
+    return ', '.join(re.sub('\D', '', episode) for episode in episodes)

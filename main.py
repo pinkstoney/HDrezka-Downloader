@@ -1,5 +1,5 @@
-from film_finder import find_films_with_titles, find_source_with_hash, get_translators, get_seasons
-from trash_cleaner import clear_trash, filter_output, clear_response
+from film_finder import find_films_with_titles, find_source_with_hash, get_translators, get_seasons, get_episodes
+from trash_cleaner import clear_trash, filter_output, clear_response, seasons_cleaner, episodes_cleaner
 import requests
 import re
 
@@ -23,6 +23,18 @@ if __name__ == "__main__":
 
             if 0 <= choice < len(films):
                 chosen_film_url = films[choice]["url"]
+
+                seasons = get_seasons(chosen_film_url, headers)
+                episodes = get_episodes(chosen_film_url, headers)
+                if seasons:
+                    cleaned_seasons = seasons_cleaner(seasons)
+                    print(cleaned_seasons)
+                    season_choice = int(input("Choose a season: ")) 
+
+                    cleaned_episodes = episodes_cleaner(episodes)
+                    print(cleaned_episodes)
+                    episode_choice = int(input("Choose an episode: "))
+    
                 translators = get_translators(chosen_film_url, headers)
 
                 if not translators:
@@ -44,8 +56,6 @@ if __name__ == "__main__":
                     chosen_translator = translators[translator_choice][:2]
                     translator_id = chosen_translator[1]
                     print(f"You chose {chosen_translator}")
-
-                    seasons = get_seasons(chosen_film_url, headers)
 
                     s = requests.Session()
 
@@ -73,8 +83,8 @@ if __name__ == "__main__":
                             "id": id,
                             "translator_id": translator_id,
                             "action": "get_stream",
-                            "season": "1",
-                            "episode": "1"
+                            "season": season_choice,
+                            "episode": episode_choice
                         }
                     else:
                         get_film = "get_movie"
@@ -91,12 +101,9 @@ if __name__ == "__main__":
                     filtered_output = filter_output(clean_response)
                     print(filtered_output)
 
-
                 else:
                     print("Invalid choice. Please choose a valid option.")
                 break
-
-                if seasons: print(seasons)
             else:
                 print("Invalid choice. Please choose a valid option.")
 
