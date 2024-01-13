@@ -1,32 +1,30 @@
-# HDRezka Film Downloader 🎬
+# HDrezka Film Downloader 🎬
 
 ## Overview
 
-Welcome to the HDRezka Film Downloader repository! 🎬 This Python script enables you to interact with HDRezka, providing various features for film enthusiasts. Please note that the code is in its early stages and may require significant refactoring.
+Welcome to the HDrezka Film Downloader repository! 🎬 This Python script empowers film enthusiasts to interact with HDrezka, offering a range of features for a seamless film download experience. Please note that the code is in its early stages and may require significant refactoring.
 
 ### Features ✨
 
-1. **Film Search:** Easily search for films by name.
-2. **Quality Options:** Download films in different quality settings such as 360p, 480p, 720p, 1080p, and more.
+1. **Film Search:** Effortlessly search for films by name.
+2. **Quality Options:** Download films in various quality settings, including 360p, 480p, 720p, 1080p, and more.
 3. **Translation Choices:** Select your preferred translation for the film.
-4. **Image Download:** Save film cover images for your collection.
 
 ### In Progress 🚧
 
-The project is actively being developed, and upcoming features include:
+The project is actively under development, with upcoming features including:
 
-- **TV Show Download:** An upcoming feature will allow you to download your favorite TV shows.
-- **Subtitles Download:** An upcomming feature will allow you to download subtutles to your favourute film or TV show
-- **Enhanced User Interface:** Improvements to the user interface for a more user-friendly experience.
-- **Optimize by getting rid of chromedriver:** Improvements to the user experience.
+- **TV Show Download:** Download your favorite TV shows.
+- **Subtitles Download:** Download subtitles for your favorite film or TV show.
+- **Enhanced User Interface:** Enjoy a more user-friendly experience.
 
 ### Refactoring Notice 🛠️
 
-Please be aware that the codebase currently requires significant refactoring. As this project started without the intention of becoming large-scale, it is the result of a learning process, especially for someone using these libraries for the first time. Refactoring will be an ongoing process to enhance code quality and maintainability.
+The codebase currently requires significant refactoring. As this project started without the intention of becoming large-scale, ongoing refactoring aims to enhance code quality and maintainability.
 
 ## Getting Started 🚀
 
-Before starting, follow these simple steps to set up your environment.
+To set up your environment, follow these simple steps:
 
 ### Setup 
 
@@ -42,20 +40,11 @@ Before starting, follow these simple steps to set up your environment.
    cd HDrezka-Downloader
    ```
 
-3. Create a `.env` file in the root directory. Specify the path to the Chrome driver and Chrome binary:
+3. Install the required Python dependencies:
 
-   ```env
-   CHROME_BINARY_LOCATION=/path/to/chrome/binary
-   CHROMEDRIVER_LOCATION=/path/to/chromedriver
+   ```bash
+   pip install -r requirements.txt
    ```
-
-### Dependencies
-
-Make sure to install the required Python dependencies:
-
-```bash
-pip install -r requirements.txt
-```
 
 ## Usage
 
@@ -67,7 +56,7 @@ pip install -r requirements.txt
 
 ## Notes 📝
 
-- The script uses Selenium and BeautifulSoup for web scraping.
+- The script uses BeautifulSoup for web scraping.
 - It supports downloading films in different qualities and translations.
 
 ## Disclaimer ⚠️
@@ -75,3 +64,5 @@ pip install -r requirements.txt
 This script is for educational purposes only. Please make sure to comply with the terms of service of the website.
 
 Feel free to contribute to the project or report any issues. Enjoy downloading your favorite films! 🍿🎉
+
+Feel free to customize it further based on your preferences and any additional information you'd like to include.
