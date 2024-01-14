@@ -1,5 +1,6 @@
-import requests
+import json
 import re
+import requests
 from bs4 import BeautifulSoup
 
 def find_films_list(film_name, headers):
@@ -67,6 +68,23 @@ def get_episodes(film_url, headers):
             episode = element.text
             episodes.append(episode)
     return episodes
+
+def get_subtitles(json_data):
+    data = json.loads(json_data)
+
+    if 'subtitle' in data:
+        subtitles = data['subtitle'].split(',')
+        subtitles_dict = {}
+
+        for subtitle in subtitles:
+            language, url = subtitle.split(']')
+            language = language.replace('[', '')
+            subtitles_dict[language] = url
+
+        return subtitles_dict
+
+    else:
+        return "No subtitles found in the data."
 
 def find_source_with_hash(film_url, headers):
     response = requests.get(film_url, headers=headers)

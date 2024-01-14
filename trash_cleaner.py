@@ -1,7 +1,7 @@
-from btoa import btoa, atob
 import itertools
 import re
 
+from btoa import btoa, atob
 
 def clear_trash(data):
     trash_list = ["@", "#", "!", "^", "$"]
@@ -55,7 +55,45 @@ def clear_response(data):
         return "No '#h' found in the input string."
 
 def seasons_cleaner(seasons):
-    return ', '.join(re.sub('\D', '', season) for season in seasons)
+    cleaned_seasons = []
+    last_season = 0
+    for season in seasons:
+        season_numbers = re.findall(r'\d+', season)
+        for number in season_numbers:
+            number = int(number)
+            if number > last_season:
+                cleaned_seasons.append(number)
+                last_season = number
+            else:
+                return cleaned_seasons
+    return cleaned_seasons
 
 def episodes_cleaner(episodes):
-    return ', '.join(re.sub('\D', '', episode) for episode in episodes)
+    cleaned_episodes = []
+    last_episode = 0
+    for episode in episodes:
+        episode_numbers = re.findall(r'\d+', episode)  # Find all numbers in the string
+        for number in episode_numbers:
+            number = int(number)
+            if number > last_episode:
+                cleaned_episodes.append(number)
+                last_episode = number
+            else:
+                return cleaned_episodes 
+    return cleaned_episodes
+
+def translator_cleaner(translators):
+    cleaned_translators = []
+    for translator in translators:
+        # Split the translator name by '(' and take the first part
+        name = translator[0].split('(')[0].strip()
+        cleaned_translators.append(name)
+    return cleaned_translators
+
+def subtitles_cleaner(subtitles_dict):
+    cleaned_subtitles = ""
+
+    for language, url in subtitles_dict.items():
+        cleaned_subtitles += f"{language}: {url}\n"
+
+    return cleaned_subtitles
