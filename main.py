@@ -1,86 +1,151 @@
+import os
 import re
 import requests
-from tabulate import tabulate
 
-from film_finder import find_films_with_titles, find_source_with_hash, get_translators, get_seasons, get_episodes, get_subtitles
-from trash_cleaner import clear_trash, filter_output, clear_response, seasons_cleaner, episodes_cleaner, subtitles_cleaner, translator_cleaner
+from colorama import Fore, Style
+from art import *
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.text import Text
+from rich import print as rprint
+
+from film_finder import (
+    find_films_with_titles,
+    find_source_with_hash,
+    get_translators,
+    get_seasons,
+    get_episodes,
+    get_subtitles,
+)
+from trash_cleaner import (
+    clear_trash,
+    filter_output,
+    clear_response,
+    seasons_cleaner,
+    episodes_cleaner,
+    subtitles_cleaner,
+    translator_cleaner,
+)
+
+console = Console()
+
+
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+
+def show_main_menu():
+    console.clear()
+    art = text2art("HDrezka-Downloader")
+    console.print(Panel(art, style="violet"))
+
+    console.print("[1] Search films")
+    console.print("[2] GitHub")
+    console.print("[3] Exit")
+
 
 def choose_film(films):
-    film_table = []
-    for i, film in enumerate(films):
-        film_table.append([i + 1, film["title"], film["url"]])
+    while True:
+        table = Table(show_header=True, header_style="magenta")
+        table.add_column("#", style="dim", width=3)
+        table.add_column("Film Title", style="green")
 
-    print(tabulate(film_table, headers=["#", "Film Title", "URL"], tablefmt="fancy_grid"))
+        for i, film in enumerate(films):
+            table.add_row(str(i + 1), film["title"])
 
-    choice = int(input("Choose a film: ")) - 1
+        console.clear()
+        console.print(table)
 
-    if 0 <= choice < len(films):
-        return films[choice]["url"]
-    else:
-        print("Invalid choice. Please choose a valid option.")
-        return None
+        film_choice = int(input("Choose a film: ")) - 1
+        if 0 <= film_choice < len(films):
+            return films[film_choice]["url"]
+        else:
+            rprint("[red]Invalid choice. Please choose a valid option.[/red]")
+            input("Press enter to try again...")
+
 
 def choose_season(seasons):
     cleaned_seasons = seasons_cleaner(seasons)
     while True:
-        season_table = []
-        for i, season in enumerate(cleaned_seasons):
-            season_table.append([i + 1, f"Season {season}"])
+        table = Table(show_header=True, header_style="magenta")
+        table.add_column("#", style="dim", width=3)
+        table.add_column("Season", style="green")
 
-        print(tabulate(season_table, headers=["#", "Season"], tablefmt="fancy_grid"))
+        for i, season in enumerate(cleaned_seasons):
+            table.add_row(str(i + 1), f"Season {season}")
+
+        console.clear()
+        console.print(table)
 
         season_choice = int(input("Choose a season: "))
-        if 0 < season_choice < i + 1:
+        if 0 < season_choice <= i + 1:
             return season_choice
         else:
-            print("Invalid choice. Please choose a valid option.")
+            rprint("[red]Invalid choice. Please choose a valid option.[/red]")
+            input("Press enter to try again...")
+
 
 def choose_episode(episodes):
     cleaned_episodes = episodes_cleaner(episodes)
     while True:
-        episode_table = []
-        for i, episode in enumerate(cleaned_episodes):
-            episode_table.append([i + 1, f"Episode {episode}"])
+        table = Table(show_header=True, header_style="magenta")
+        table.add_column("#", style="dim", width=3)
+        table.add_column("Episode", style="green")
 
-        print(tabulate(episode_table, headers=["#", "Episode"], tablefmt="fancy_grid"))
+        for i, episode in enumerate(cleaned_episodes):
+            table.add_row(str(i + 1), f"Episode {episode}")
+
+        console.clear()
+        console.print(table)
 
         episode_choice = int(input("Choose an episode: "))
-        print(i)
-        if 0 < episode_choice < i:
+        if 0 < episode_choice <= i + 1:
             return episode_choice
         else:
-            print("Invalid choice. Please choose a valid option.")
+            rprint("[red]Invalid choice. Please choose a valid option.[/red]")
+            input("Press enter to try again...")
+
 
 def choose_translator(translators):
     cleaned_translators = translator_cleaner(translators)
+    while True:
+        table = Table(show_header=True, header_style="magenta")
+        table.add_column("#", style="dim", width=3)
+        table.add_column("Translator", style="green")
 
-    translator_table = []
-    for i, translator in enumerate(cleaned_translators):
-        translator_table.append([i + 1, translator])
+        for i, translator in enumerate(cleaned_translators):
+            table.add_row(str(i + 1), translator)
 
-    print(tabulate(translator_table, headers=["#", "Translator"], tablefmt="fancy_grid"))
+        console.clear()
+        console.print(table)
 
-    translator_choice = int(input("Choose a translator: ")) - 1
+        translator_choice = int(input("Choose a translator: ")) - 1
+        if 0 <= translator_choice < len(translators):
+            chosen_translator = translators[translator_choice][:2]
+            translator_id = chosen_translator[1]
+            return translator_id
+        else:
+            rprint("[red]Invalid choice. Please choose a valid option.[/red]")
+            input("Press enter to try again...")
 
-    if 0 <= translator_choice < len(translators):
-        chosen_translator = translators[translator_choice][:2]
-        translator_id = chosen_translator[1]
-        return translator_id
-    else:
-        print("Invalid choice. Please choose a valid option.")
-        return None
 
-if __name__ == "__main__":
+def search_films():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
 
     while True:
+        console_width = console.width
+        console.print("\n" + "#" * console_width, style="dark_sea_green")
         film_name = input("Enter film name: ")
         films = find_films_with_titles(film_name, headers)
 
         if not films:
-            print("No films found. Try a different search term.")
+            print(Fore.YELLOW + "No films found. Try a different search term." + Style.RESET_ALL)
             continue
 
         chosen_film_url = choose_film(films)
@@ -104,7 +169,7 @@ if __name__ == "__main__":
                 filtered_output = filter_output(cleaned_source)
                 print(filtered_output)
             else:
-                print("No source found for the chosen film.")
+                print(Fore.YELLOW + "No source found for the chosen film." + Style.RESET_ALL)
             break
 
         translator_id = choose_translator(translators)
@@ -160,23 +225,53 @@ if __name__ == "__main__":
 
             subtitle_entries = clean_subtitles.split('\n')
 
-            subtitle_table = []
-            for entry in subtitle_entries:
-                if entry: 
-                    language, url = entry.split(': ', 1)  
-                    subtitle_table.append([language, url])
+            table = Table(show_header=True, header_style="magenta")
+            table.add_column("Language", style="green")
+            table.add_column("URL", style="green")
 
-            print(tabulate(subtitle_table, headers=["Language", "URL"], tablefmt="fancy_grid"))
-                
+            for entry in subtitle_entries:
+                if entry:
+                    language, url = entry.split(': ', 1)
+                    table.add_row(language, url)
+
+            console.clear()
+            console.print("Subtitles:", style="light_slate_blue")
+            console.print(table)
+
 
         output_entries = filtered_output.split('\n')
 
-        output_table = []
+        output_table = Table(show_header=True, header_style="magenta")
+        output_table.add_column("Quality", style="green")
+        output_table.add_column("URL", style="green")
+
         for entry in output_entries:
             if entry:
                 quality, url = entry.split('] ', 1)
                 quality = quality.replace('[', '')
-                output_table.append([quality, url])
+                url_text = Text(url, overflow="fold")
+                output_table.add_row(quality, url_text)
 
-        print(tabulate(output_table, headers=["Qaulity", "URL"], tablefmt="fancy_grid"))
+        console.print("Video sources:", style="light_slate_blue")
+        console.print(output_table)
 
+
+if __name__ == "__main__":
+    while True:
+        show_main_menu()
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            search_films()
+        elif choice == "2":
+            console.clear()
+            console.print('[light_steel_blue]GitHub Repository:[/light_steel_blue]')
+            console.print('https://github.com/pinkstoney/HDrezka-Downloader.git')
+            input("Press enter to go back to the main menu...")
+            show_main_menu()
+
+        elif choice == "3":
+            break
+        else:
+            rprint("[red]Invalid choice. Please choose a valid option.[/red]")
+            input("Press enter to try again...")
