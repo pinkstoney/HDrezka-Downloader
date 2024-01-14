@@ -22,25 +22,34 @@ def choose_film(films):
 
 def choose_season(seasons):
     cleaned_seasons = seasons_cleaner(seasons)
-    season_table = []
-    for i, season in enumerate(cleaned_seasons):
-        season_table.append([i + 1, f"Season {season}"])
+    while True:
+        season_table = []
+        for i, season in enumerate(cleaned_seasons):
+            season_table.append([i + 1, f"Season {season}"])
 
-    print(tabulate(season_table, headers=["#", "Season"], tablefmt="fancy_grid"))
+        print(tabulate(season_table, headers=["#", "Season"], tablefmt="fancy_grid"))
 
-    season_choice = int(input("Choose a season: "))
-    return season_choice
+        season_choice = int(input("Choose a season: "))
+        if 0 < season_choice < i + 1:
+            return season_choice
+        else:
+            print("Invalid choice. Please choose a valid option.")
 
 def choose_episode(episodes):
     cleaned_episodes = episodes_cleaner(episodes)
-    episode_table = []
-    for i, episode in enumerate(cleaned_episodes):
-        episode_table.append([i + 1, f"Episode {episode}"])
+    while True:
+        episode_table = []
+        for i, episode in enumerate(cleaned_episodes):
+            episode_table.append([i + 1, f"Episode {episode}"])
 
-    print(tabulate(episode_table, headers=["#", "Episode"], tablefmt="fancy_grid"))
+        print(tabulate(episode_table, headers=["#", "Episode"], tablefmt="fancy_grid"))
 
-    episode_choice = int(input("Choose an episode: "))
-    return episode_choice
+        episode_choice = int(input("Choose an episode: "))
+        print(i)
+        if 0 < episode_choice < i:
+            return episode_choice
+        else:
+            print("Invalid choice. Please choose a valid option.")
 
 def choose_translator(translators):
     cleaned_translators = translator_cleaner(translators)
