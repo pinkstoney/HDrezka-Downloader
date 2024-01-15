@@ -9,14 +9,13 @@ Welcome to the HDrezka Film Downloader repository! 🎬 This Python script empow
 1. **Film Search:** Effortlessly search for films by name.
 2. **Quality Options:** Download films in various quality settings, including 360p, 480p, 720p, 1080p, and more.
 3. **Translation Choices:** Select your preferred translation for the film.
+4. **Subtitles Support:** Download films with subtitles in multiple languages.
 
 ### In Progress 🚧
 
 The project is actively under development, with upcoming features including:
 
-- **TV Show Download:** Download your favorite TV shows.
-- **Subtitles Download:** Download subtitles for your favorite film or TV show.
-- **Enhanced User Interface:** Enjoy a more user-friendly experience.
+- **Enhanced User Interface:**
 
 ### Refactoring Notice 🛠️
 
