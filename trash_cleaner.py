@@ -85,8 +85,15 @@ def episodes_cleaner(episodes):
 def translator_cleaner(translators):
     cleaned_translators = []
     for translator in translators:
-        # Split the translator name by '(' and take the first part
         name = translator[0].split('(')[0].strip()
+        if "Украинский дубляж" in name:
+            name = name.replace("Украинский", "Український") + " (ua)"
+        elif "Украинский многоголосый" in name:
+            name = name.replace("Украинский многоголосый", "Український багатоголосий закадровий") + " (ua)"
+        elif "Оригинал" in name:
+            name = name.replace("Оригинал", "Original")
+        else:
+            name += " (ru)"
         cleaned_translators.append(name)
     return cleaned_translators
 

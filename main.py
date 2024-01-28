@@ -9,6 +9,7 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
 from rich import print as rprint
+from pyshorteners import Shortener
 
 from film_finder import (
     find_films_with_titles,
@@ -249,7 +250,11 @@ def search_films():
             if entry:
                 quality, url = entry.split('] ', 1)
                 quality = quality.replace('[', '')
-                url_text = Text(url, overflow="fold")
+                
+                shortener = Shortener()
+                short_url = shortener.tinyurl.short(url)
+
+                url_text = Text(short_url, overflow="fold")
                 output_table.add_row(quality, url_text)
 
         console.print("Video sources:", style="light_slate_blue")
